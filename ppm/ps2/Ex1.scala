@@ -1,4 +1,4 @@
-object Ex1 {
+object Ex1 extends App {
     /*
     a) Define the method transf that does the following transformation: receives a list and
     replaces the 1st with the 2nd element, and the 3rd with the 4th, until the end of the list.
@@ -136,6 +136,56 @@ object Ex1 {
         val a = avg(lst, 0, 0)
         println("Average: " + a)
         devideByValue(lst, a)
+    }
+
+    /*
+    Consider that we want to define methods for manipulating a phone book. So we decided that
+    the information for each entry in the phone book will contain the name, the phone number and
+    e-mail address. We can then make the following definitions:
+
+        type Entry = (String, String, String)
+        type LTelef = List[Entry]
+
+    The method that calculates the known email addresses can be defined as:
+        def emails(lst : LTelef) : List[String] = {
+            lst match {
+                case Nil => Nil
+                case (_ , _ , email):: tail => email :: (emails(tail))
+            }
+        }
+        
+        j) Define a method that, given a phone book, produces the list of email addresses of the
+        entries whose telephone numbers are from the fixed network (prefix ’2’).
+        k) Define a method that given a phone book and a name, returns the pair with the phone
+        number and the email address associated with that name, in the phone book.
+    */
+    type Entry = (String, String, String)
+    type LTelef = List[Entry]
+    def emails(lst : LTelef) : List[String] = {
+        lst match {
+            case Nil => Nil
+            case (_ , _ , e):: tail => e :: emails(tail)
+        }
+    }
+    
+    def emailsFromFixedNetwork(lst : LTelef) : List[String] = {
+        lst match {
+            case Nil => Nil
+            case (_ , p , e):: tail => {
+                if (p(0) == '2')
+                    e :: (emailsFromFixedNetwork(tail))
+                else
+                    emailsFromFixedNetwork(tail)
+            }
+        }
+    }
+    
+    def info(lst : LTelef, name:String): (_,_) = {
+        lst match {
+            case Nil => ("","")
+            case (n , p , e):: tail if (n == name) => (p,e)
+            case _::tail => info(tail,name)
+        }
     }
 
 }
