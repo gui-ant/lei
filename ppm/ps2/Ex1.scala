@@ -24,11 +24,10 @@ object Ex1 extends App {
     /*
     c) Define a method that, given a list and an element, places it at the end of the list.
     */
-    def placeInTheEnd[A](lst:List[A]):List[A] =  {
+    def placeInTheEnd[A](lst:List[A], el: A):List[A] =  {
         lst match {
-            case Nil => Nil; 
-            case x::y::tail => y::placeInTheEnd(x::tail)
-            case _ => lst; 
+            case Nil => List(el);
+            case x::tail => x::placeInTheEnd(tail, el)
         }
     }
     /*
@@ -39,7 +38,7 @@ object Ex1 extends App {
     def concatenate[A](lst1:List[A], lst2:List[A]):List[A] =  {
         lst2 match {
             case Nil => lst1; 
-            case h::tail => concatenate(placeInTheEnd(h::lst1), tail); 
+            case h::tail => concatenate(placeInTheEnd(lst1, h),tail); 
         }
     }
 
