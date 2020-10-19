@@ -30,7 +30,16 @@ object Ex1 {
         (lst1, lst2) match {
             case (Nil, Nil) => Nil
             case (l1, l2) if (l1.size != l2.size) => throw new IllegalArgumentException("The number of elements in lists must be equal.")
-            case (x::t1, y::t2) => (x + y) :: sumList(t1,t2)
+            case (h1::t1, h2::t2) => (h1 + h2) :: sumList(t1, t2)
+        }
+    }
+    // zipWith(List(1,2,3),List(4,5,6),(x:Int,y:Int) => x + y)
+    // zipWith(List(1.0,2.0,3.0),List(4.0,5.0,6.0),(x:Double,y:Double) => x * y)
+    def zipWith[A](lst1: List[A], lst2: List[A], f: (A, A) => A):List[A] = {
+        (lst1, lst2) match {
+            case (Nil, Nil) => Nil
+            case (l1, l2) if (l1.size != l2.size) => throw new IllegalArgumentException("The number of elements in lists must be equal.")
+            case (h1::t1, h2::t2) => f(h1, h2) :: zipWith(t1, t2, f)
         }
     }
 }

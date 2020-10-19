@@ -1,4 +1,4 @@
-object Ex1 extends App {
+object Ex1 {
     /*
     a) Define the method transf that does the following transformation: receives a list and
     replaces the 1st with the 2nd element, and the 3rd with the 4th, until the end of the list.
