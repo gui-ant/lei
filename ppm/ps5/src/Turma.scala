@@ -42,15 +42,15 @@ object Turma {
   in the class, and both NT and NP components reach the minimum grade of 9.5 values
   otherwise None should be returned. Use the Option get method to access its value.
    */
-  def NF(NT: NT, NP: NP): Option[Float] =
-    if (NT != None && NP != None)
-      if (NT.get >= 9.5 && NP.get >= 9.5) Option(.6f * NT.get +.4f * NP.get) else None
+  def nf(nt: NT, np: NP): Option[Float] =
+    if (nt != None && np != None)
+      if (nt.get >= 9.5 && np.get >= 9.5) Option(.6f * nt.get +.4f * np.get) else None
     else
       None
 
   def finalGrade(t: Turma, nr: Numero): Option[Float] = {
     t.searchStudent(nr) match {
-      case s if s != None => NF(s.get._4, s.get._5)
+      case s if s != None => nf(s.get._4, s.get._5)
       case _ => None
     }
   }
