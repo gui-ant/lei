@@ -1,7 +1,20 @@
 import scala.annotation.tailrec
 
-object Ex1 {
+object app extends App {
+    println("Exercise 1")
+    Ex1.main(Array())
+    println("\n")
+    println("Exercise 2")
+    Ex2.main(Array())
+    println("\n")
+    println("Exercise 3")
+    Ex3.main(Array())
+}
 
+object Ex1 extends App {
+    println("factorialA: " + factorialA(5))
+    println("factorialB: " + factorialB(5))
+    println("factorialC: " + factorialC(5))
     def factorialA(n:Int):Int = {
         n match {
             case 0 => 1
@@ -18,6 +31,9 @@ object Ex1 {
         loop(1,n)
     }
 
+}
+
+object Ex2 extends App {
     def lazyListRange(lo: Int, hi: Int): LazyList[Int] = {
         println(lo)
         if(lo >= hi) 
@@ -25,7 +41,8 @@ object Ex1 {
         else 
             lo #:: lazyListRange(lo + 1, hi)
     }
-
+}
+object Ex3 {
     def sumList(lst1: List[Int], lst2: List[Int]):List[Int] = {
         (lst1, lst2) match {
             case (Nil, Nil) => Nil

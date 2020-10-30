@@ -5,8 +5,10 @@ object Main {
     val t: Turma =
       Turma("id22",
         List(
-          (11, "as", RegimeOPT.Ordinario, Some(10), Some(20)),
-          (12, "Jose", RegimeOPT.TrabEstud, Some(13), None)
+          (11, "Carlos", RegimeOPT.Ordinario, Some(10), Some(20)),
+          (12, "Jose", RegimeOPT.TrabEstud, Some(8), None),
+          (12, "Aida", RegimeOPT.TrabEstud, Some(9.5), Some(9.5)),
+          (12, "Joaquim", RegimeOPT.TrabEstud, Some(15), Some(10))
         )
       )
     println("Workers-students: " + t.trabs())
@@ -14,6 +16,7 @@ object Main {
     val a = scala.io.StdIn.readInt()
     println("Student with number: " + t.searchStudent(a))
     println("Student evaluation: " + t.finalGrade(a))
+    println("Aproved students: " + t.approved())
 
 
   }

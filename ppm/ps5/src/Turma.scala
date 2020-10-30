@@ -10,6 +10,8 @@ case class Turma(id: String, alunos: Alunos) {
   def searchStudent(nr: Turma.Numero): Option[Aluno] = Turma.searchStudent(this, nr)
 
   def finalGrade(nr: Turma.Numero): Option[Float] = Turma.finalGrade(this, nr)
+
+  def approved(): List[(Nome, Float)] = Turma.approved(this)
 }
 
 object Turma {
@@ -42,17 +44,15 @@ object Turma {
   in the class, and both NT and NP components reach the minimum grade of 9.5 values
   otherwise None should be returned. Use the Option get method to access its value.
    */
-  def nf(nt: NT, np: NP): Option[Float] =
-    if (nt != None && np != None)
-      if (nt.get >= 9.5 && np.get >= 9.5) Option(.6f * nt.get +.4f * np.get) else None
+  def nf(nt: => NT, np: => NP): Option[Float] =
+    if (nt != None && np != None && nt.get >= 9.5 && np.get >= 9.5)
+      Option(.6f * nt.get +.4f * np.get)
     else
       None
 
   def finalGrade(t: Turma, nr: Numero): Option[Float] = {
-    t.searchStudent(nr) match {
-      case s if s != None => nf(s.get._4, s.get._5)
-      case _ => None
-    }
+    val s = t.searchStudent(nr)
+    if (s != None) nf(s.get._4, s.get._5) else None
   }
 
   /*
@@ -60,15 +60,24 @@ object Turma {
   a final grade greater than or equal to 10 values.
   */
 
-  def approved() {}
+  def approved(t: Turma): List[(Nome, Float)] = {
+    t.alunos.foldRight(List[(Nome, Float)]())((a, lst) =>
+      if (finalGrade(t, a._1) != None)
+        (a._2, finalGrade(t, a._1).get) :: lst
+      else
+        lst
+    )
+  }
 
   /*
   e) changeNP and changeNT, which allow to change the practical and theoretical notes of a
   student in a class. Suggestion: use the List updated, indexWhere and apply methods
   instead of the searchStudent function.
   */
-  def changeNP() {}
+  def changeNP() {
+  }
 
-  def changeNT() {}
+  def changeNT() {
+  }
 }
 
