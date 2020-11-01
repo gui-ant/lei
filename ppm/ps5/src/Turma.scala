@@ -3,6 +3,8 @@ package Ficha5
 import Ficha5.RegimeOPT.RegimeOPT
 import Ficha5.Turma._
 
+import scala.jdk.FunctionWrappers.AsJavaLongUnaryOperator
+
 case class Turma(id: String, alunos: Alunos) {
 
   def trabs(): Alunos = Turma.trabs(this)
@@ -12,6 +14,10 @@ case class Turma(id: String, alunos: Alunos) {
   def finalGrade(nr: Turma.Numero): Option[Float] = Turma.finalGrade(this, nr)
 
   def approved(): List[(Nome, Float)] = Turma.approved(this)
+
+  def changeNP(a: Aluno, v: Option[Float]): Alunos = Turma.changeNP(this, a, v)
+
+  def changeNT(a: Aluno, v: Option[Float]): Alunos = Turma.changeNT(this, a, v)
 }
 
 object Turma {
@@ -50,9 +56,9 @@ object Turma {
     else
       None
 
-  def finalGrade(t: Turma, nr: Numero): Option[Float] = {
-    val s = t.searchStudent(nr)
-    if (s != None) nf(s.get._4, s.get._5) else None
+  def finalGrade(t: Turma, nr: Numero): Option[Float] = t.searchStudent(nr) match {
+    case None => None
+    case s => nf(s.get._4, s.get._5)
   }
 
   /*
@@ -61,11 +67,8 @@ object Turma {
   */
 
   def approved(t: Turma): List[(Nome, Float)] = {
-    t.alunos.foldRight(List[(Nome, Float)]())((a, lst) =>
-      if (finalGrade(t, a._1) != None)
-        (a._2, finalGrade(t, a._1).get) :: lst
-      else
-        lst
+    t.alunos.foldRight(List[(Nome, Float)]())((a, l) =>
+      if (finalGrade(t, a._1) != None) (a._2, finalGrade(t, a._1).get) :: l else l
     )
   }
 
@@ -74,10 +77,14 @@ object Turma {
   student in a class. Suggestion: use the List updated, indexWhere and apply methods
   instead of the searchStudent function.
   */
-  def changeNP() {
+  def changeNP(t: Turma, a: Aluno, v: NP): Alunos = {
+    val i = t.alunos.indexWhere(x => x.equals(a)) //funciona
+    t.alunos.updated(i, new Aluno(a._1, a._2, a._3, v, a._5))
   }
 
-  def changeNT() {
+  def changeNT(t: Turma, a: Aluno, v: NT): Alunos = {
+    val i = t.alunos.indexWhere(x => x.equals(a)) //funciona
+    t.alunos.updated(i, new Aluno(a._1, a._2, a._3, a._4, v))
   }
 }
 
