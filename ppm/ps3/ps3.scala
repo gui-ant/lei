@@ -118,7 +118,7 @@ object Ex7 {
     // Note: use map and the s String Interpolator to create the final String (e.g. s"${exp}. ${exp}")
     def abbreviations(names:List[String]):List[String] = names match {
             case Nil => Nil
-            case x :: xs => s"${x.substring(0,1)}. ${x.reverse.substring(0,x.reverse.indexOf(" ")).reverse}" :: abbreviations(xs) 
+            case x :: xs => s"${x.substring(0,1)}. ${x.split(" ").last}" :: abbreviations(xs) 
         }
 }
 
